@@ -53,9 +53,10 @@ namespace ST_InstructorUI
 		private void Form1_Load(object sender, EventArgs e)
 		{
 			// 最初は初期化タブのみ
-			//tabControl1.TabPages.Remove(tabPage_Main);
+			tabControl.TabPages.Remove(tabPage_Main);
 			
-			ChangeStatus("Okay");
+			UpdateFormButtons("inited");
+
 			self = this;
 			udp_send = new UdpClient();
 			udp_recv = new UdpClient(UDP_INTERFACE_RECV);
@@ -65,6 +66,7 @@ namespace ST_InstructorUI
 			rcv_thread.Start();
 
 			ResetCustomTags();
+			ResetAllGameState();
 		}
 
 		// フォームを閉じるとき（ReceiveスレッドをAbortする）
@@ -171,11 +173,12 @@ namespace ST_InstructorUI
 					server_port = int.Parse(arg[2]);
 					send_data("PONG INSTRUCTOR_UI " + UDP_INTERFACE_RECV);
 					ChangeStatus("CONNECTED: "+server_address);
-					if (tabControl1.TabPages.Count==1)
+					if (!tabControl.TabPages.Contains(tabPage_Main))
 					{
 						// 初回PINGのみ、操作タブが増える
-						tabControl1.TabPages.Add(tabPage_Main);
+						tabControl.TabPages.Add(tabPage_Main);
 					}
+					panelSecond.Visible = true;
 					return;
 				}
 			} else {
@@ -605,9 +608,10 @@ namespace ST_InstructorUI
 		}
 
 		// プレイヤーIDの正当性の確認
-		bool IsValidPlayerId(string id)
+		bool IsValidPlayerId(string id, out string player_name)
 		{
 			bool valid = false;
+			player_name = "";
 			try
 			{
 				var conn = new MySqlConnection(GetConnString());
@@ -627,6 +631,7 @@ namespace ST_InstructorUI
 					{
 						// 見つかったらValidだ
 						valid = true;
+						player_name = reader["username"].ToString();
 					}
 				}
 				reader.Close();
@@ -689,19 +694,29 @@ namespace ST_InstructorUI
 			}
 			else if (text[0]=='P')
 			{
-				if (IsValidPlayerId(text.Substring(1)))
+				string name;
+				if (IsValidPlayerId(text.Substring(1), out name))
+				{
 					textBox_playerQR.Text =  text;
+					labelPlayerName.Text = name+" さん";
+				}
 				else if (IsExistPlayerId(text.Substring(1)))
-					labelQrStatus.Text = "登録されていない\nプレイヤーQRコードです";
+				{
+					labelQrStatus.Text = "登録されていないプレイヤーQRコードです";
+					labelPlayerName.Text = "";
+				}
 				else
-					labelQrStatus.Text = "存在しない\nプレイヤーQRコードです";
+				{
+					labelQrStatus.Text = "存在しないプレイヤーQRコードです";
+					labelPlayerName.Text = "";
+				}
 			}
 			else if (text[0]=='G')
 			{
 				switch (GetGameIdType(text.Substring(1)))
 				{
 				case GameIdType.Invalid:
-					labelQrStatus.Text = "ただしくない\nゲームQRコードです";
+					labelQrStatus.Text = "ただしくないゲームQRコードです";
 					break;
 				case GameIdType.NewGame:
 					textBox_gameQR.Text = text;
@@ -764,20 +779,25 @@ namespace ST_InstructorUI
 			{ send_data("GOAL"); }
 		private void buttonInit_Click(object sender, EventArgs e)
 			{ send_data("INIT"); }
-		private void button_All_Init_Click(object sender, EventArgs e)
-			{ send_data_raw("INIT", "255.255.255.255", UDP_SERVER_RECV); }
 		private void buttonMute_Click(object sender, EventArgs e)
 			{ send_data("MUTE ON"); }
 		private void buttonBlind_Click(object sender, EventArgs e)
 			{ send_data("SHOUT BLACK"); }
-		private void buttonCalibration_Click(object sender, EventArgs e)
-			{ send_data("STATE calibrating"); }
 		private void buttonInitSystem_Click(object sender, EventArgs e)
 			{ send_data("STATE init"); }
 		private void buttonRandomBackground_Click(object sender, EventArgs e)
 			{ ComboBoxRandom(comboBox_Background); }
 		private void buttonRandomColor_Click(object sender, EventArgs e)
 			{ ComboBoxRandom(comboBox_Color); }
+
+		// PONGをうけたらSecondがVisibleになります
+		private void button_All_Init_Click(object sender, EventArgs e)
+			{ send_data_raw("INIT", "255.255.255.255", UDP_SERVER_RECV); }
+		private void buttonCalibration_Click(object sender, EventArgs e)
+			{ send_data("STATE calibrating");
+			  panelThird.Visible = true; }
+		private void buttonGotoMain_Click(object sender, EventArgs e)
+			{ tabControl.SelectedTab = tabPage_Main; }
 
 		private void buttonSendAll_Click(object sender, EventArgs e)
 		{
@@ -810,8 +830,6 @@ namespace ST_InstructorUI
 			{ ExtraTagsTextChanged(4, ((TextBox)sender).Text); }
 		private void textBox_Tag5_TextChanged(object sender, EventArgs e)
 			{ ExtraTagsTextChanged(5, ((TextBox)sender).Text); }
-		private void buttonGotoMain_Click(object sender, EventArgs e)
-			{ tabControl1.SelectedIndex = 1; }
 
 		private void buttonClearTags_Click(object sender, EventArgs e)
 		{
