@@ -73,6 +73,7 @@
     </Reference>
     <Reference Include="MySql.Data">
       <HintPath>..\..\ST_QrPrint\DLL\MySql.Data.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />

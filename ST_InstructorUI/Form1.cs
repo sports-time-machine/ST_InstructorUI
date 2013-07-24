@@ -72,7 +72,9 @@ namespace ST_InstructorUI
 		// フォームを閉じるとき（ReceiveスレッドをAbortする）
 		private void Form1_FormClosing(object sender, FormClosingEventArgs e)
 		{
+			readQRTimer.Stop();
 			rcv_thread.Abort();
+			Application.Exit();
 		}
 
 		/********************************************************************************************
@@ -768,7 +770,10 @@ namespace ST_InstructorUI
 		// コンボボックスの中身をランダムで選ぶ
 		private void ComboBoxRandom(ComboBox combo)
 		{
-			combo.SelectedIndex = random.Next() % combo.Items.Count;
+			if (combo.Items.Count!=0)
+			{
+				combo.SelectedIndex = random.Next() % combo.Items.Count;
+			}
 		}
 
 		private void buttonStart_Click(object sender, EventArgs e)
@@ -835,5 +840,17 @@ namespace ST_InstructorUI
 		{
 			ResetAllTags();
 		}
+
+		private void Form1_FormClosed(object sender, FormClosedEventArgs e)
+		{
+
+		}
+
+		private void buttonClearPlayer_Click(object sender, EventArgs e)
+			{ textBox_playerQR.Text = ""; }
+		private void buttonClearPartner_Click(object sender, EventArgs e)
+			{ textBox_partnerQR.Text = ""; }
+		private void buttonClearGame_Click(object sender, EventArgs e)
+			{ textBox_gameQR.Text = ""; }
 	}
 }
