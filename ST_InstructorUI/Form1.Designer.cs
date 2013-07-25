@@ -88,6 +88,7 @@
 			this.splitContainer4 = new System.Windows.Forms.SplitContainer();
 			this.textBoxSendMsg = new System.Windows.Forms.TextBox();
 			this.buttonSendAll = new System.Windows.Forms.Button();
+			this.labelPartnerName = new System.Windows.Forms.Label();
 			this.statusStrip1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
 			this.splitContainer1.Panel1.SuspendLayout();
@@ -191,6 +192,7 @@
 			// 
 			// splitContainer2.Panel1
 			// 
+			this.splitContainer2.Panel1.Controls.Add(this.labelPartnerName);
 			this.splitContainer2.Panel1.Controls.Add(this.buttonClearGame);
 			this.splitContainer2.Panel1.Controls.Add(this.buttonClearPartner);
 			this.splitContainer2.Panel1.Controls.Add(this.buttonClearPlayer);
@@ -228,7 +230,7 @@
 			this.splitContainer2.Panel2.Controls.Add(this.buttonGoal);
 			this.splitContainer2.Panel2.Controls.Add(this.buttonInit);
 			this.splitContainer2.Size = new System.Drawing.Size(916, 595);
-			this.splitContainer2.SplitterDistance = 588;
+			this.splitContainer2.SplitterDistance = 582;
 			this.splitContainer2.SplitterWidth = 10;
 			this.splitContainer2.TabIndex = 0;
 			// 
@@ -474,7 +476,7 @@
 			// 
 			this.label8.AutoSize = true;
 			this.label8.Font = new System.Drawing.Font("メイリオ", 9F);
-			this.label8.Location = new System.Drawing.Point(3, 212);
+			this.label8.Location = new System.Drawing.Point(3, 202);
 			this.label8.Name = "label8";
 			this.label8.Size = new System.Drawing.Size(104, 18);
 			this.label8.TabIndex = 22;
@@ -537,7 +539,7 @@
 			// buttonLoad
 			// 
 			this.buttonLoad.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-			this.buttonLoad.Location = new System.Drawing.Point(2, 233);
+			this.buttonLoad.Location = new System.Drawing.Point(2, 223);
 			this.buttonLoad.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
 			this.buttonLoad.Name = "buttonLoad";
 			this.buttonLoad.Size = new System.Drawing.Size(270, 64);
@@ -560,10 +562,10 @@
 			// buttonStop
 			// 
 			this.buttonStop.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Bold);
-			this.buttonStop.Location = new System.Drawing.Point(2, 372);
+			this.buttonStop.Location = new System.Drawing.Point(2, 375);
 			this.buttonStop.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
 			this.buttonStop.Name = "buttonStop";
-			this.buttonStop.Size = new System.Drawing.Size(270, 64);
+			this.buttonStop.Size = new System.Drawing.Size(270, 52);
 			this.buttonStop.TabIndex = 2;
 			this.buttonStop.Text = "やりなおし";
 			this.buttonStop.UseVisualStyleBackColor = true;
@@ -572,10 +574,10 @@
 			// buttonStart
 			// 
 			this.buttonStart.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Bold);
-			this.buttonStart.Location = new System.Drawing.Point(2, 302);
+			this.buttonStart.Location = new System.Drawing.Point(2, 293);
 			this.buttonStart.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
 			this.buttonStart.Name = "buttonStart";
-			this.buttonStart.Size = new System.Drawing.Size(270, 64);
+			this.buttonStart.Size = new System.Drawing.Size(270, 76);
 			this.buttonStart.TabIndex = 1;
 			this.buttonStart.Text = "スタート";
 			this.buttonStart.UseVisualStyleBackColor = true;
@@ -584,10 +586,10 @@
 			// buttonGoal
 			// 
 			this.buttonGoal.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Bold);
-			this.buttonGoal.Location = new System.Drawing.Point(2, 442);
+			this.buttonGoal.Location = new System.Drawing.Point(2, 433);
 			this.buttonGoal.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
 			this.buttonGoal.Name = "buttonGoal";
-			this.buttonGoal.Size = new System.Drawing.Size(270, 64);
+			this.buttonGoal.Size = new System.Drawing.Size(270, 89);
 			this.buttonGoal.TabIndex = 3;
 			this.buttonGoal.Text = "手動でゴール";
 			this.buttonGoal.UseVisualStyleBackColor = true;
@@ -597,10 +599,10 @@
 			// 
 			this.buttonInit.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Bold);
 			this.buttonInit.ForeColor = System.Drawing.Color.Brown;
-			this.buttonInit.Location = new System.Drawing.Point(2, 512);
+			this.buttonInit.Location = new System.Drawing.Point(2, 528);
 			this.buttonInit.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
 			this.buttonInit.Name = "buttonInit";
-			this.buttonInit.Size = new System.Drawing.Size(270, 64);
+			this.buttonInit.Size = new System.Drawing.Size(270, 52);
 			this.buttonInit.TabIndex = 4;
 			this.buttonInit.Text = "中断";
 			this.buttonInit.UseVisualStyleBackColor = true;
@@ -764,10 +766,10 @@
 			// tabPage_Admin
 			// 
 			this.tabPage_Admin.Controls.Add(this.splitContainer3);
-			this.tabPage_Admin.Location = new System.Drawing.Point(4, 22);
+			this.tabPage_Admin.Location = new System.Drawing.Point(4, 27);
 			this.tabPage_Admin.Name = "tabPage_Admin";
 			this.tabPage_Admin.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage_Admin.Size = new System.Drawing.Size(920, 606);
+			this.tabPage_Admin.Size = new System.Drawing.Size(920, 601);
 			this.tabPage_Admin.TabIndex = 2;
 			this.tabPage_Admin.Text = "管理者画面";
 			this.tabPage_Admin.UseVisualStyleBackColor = true;
@@ -788,8 +790,8 @@
 			// splitContainer3.Panel2
 			// 
 			this.splitContainer3.Panel2.Controls.Add(this.splitContainer4);
-			this.splitContainer3.Size = new System.Drawing.Size(914, 600);
-			this.splitContainer3.SplitterDistance = 562;
+			this.splitContainer3.Size = new System.Drawing.Size(914, 595);
+			this.splitContainer3.SplitterDistance = 557;
 			this.splitContainer3.TabIndex = 16;
 			// 
 			// textBoxLog
@@ -803,7 +805,7 @@
 			this.textBoxLog.Multiline = true;
 			this.textBoxLog.Name = "textBoxLog";
 			this.textBoxLog.ReadOnly = true;
-			this.textBoxLog.Size = new System.Drawing.Size(914, 562);
+			this.textBoxLog.Size = new System.Drawing.Size(914, 557);
 			this.textBoxLog.TabIndex = 15;
 			// 
 			// splitContainer4
@@ -846,6 +848,16 @@
 			this.buttonSendAll.Text = "全クライアントにメッセージ";
 			this.buttonSendAll.UseVisualStyleBackColor = true;
 			this.buttonSendAll.Click += new System.EventHandler(this.buttonSendAll_Click);
+			// 
+			// labelPartnerName
+			// 
+			this.labelPartnerName.AutoSize = true;
+			this.labelPartnerName.Font = new System.Drawing.Font("メイリオ", 10F);
+			this.labelPartnerName.Location = new System.Drawing.Point(402, 66);
+			this.labelPartnerName.Name = "labelPartnerName";
+			this.labelPartnerName.Size = new System.Drawing.Size(178, 21);
+			this.labelPartnerName.TabIndex = 22;
+			this.labelPartnerName.Text = "ここに名前が表示されます";
 			// 
 			// Form1
 			// 
@@ -964,6 +976,7 @@
 		private System.Windows.Forms.Button buttonClearGame;
 		private System.Windows.Forms.Button buttonClearPartner;
 		private System.Windows.Forms.Button buttonClearPlayer;
+		private System.Windows.Forms.Label labelPartnerName;
 
     }
 }

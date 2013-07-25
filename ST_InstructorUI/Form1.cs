@@ -60,7 +60,12 @@ namespace ST_InstructorUI
 			self = this;
 			udp_send = new UdpClient();
 			udp_recv = new UdpClient(UDP_INTERFACE_RECV);
-			ping_recv = new UdpClient(UDP_CLIENT_RECV);
+			try {
+				ping_recv = new UdpClient(UDP_CLIENT_RECV);
+			} catch (Exception) {
+				MessageBox.Show("すでにクライアントもしくはUIアプリが起動しています");
+				Application.Exit();
+			}
 
 			rcv_thread = new Thread(ReceiveProc);
 			rcv_thread.Start();
@@ -73,8 +78,10 @@ namespace ST_InstructorUI
 		private void Form1_FormClosing(object sender, FormClosingEventArgs e)
 		{
 			readQRTimer.Stop();
-			rcv_thread.Abort();
-			Application.Exit();
+			try {
+				rcv_thread.Abort();
+			} catch (Exception) {
+			}
 		}
 
 		/********************************************************************************************
@@ -558,8 +565,10 @@ namespace ST_InstructorUI
 		Dictionary<string,GameIdType> id_info = new Dictionary<string,GameIdType>();
 
 		// ゲームIDをDBから読み取り、新規IDかパートナーIDか、不正であるかを判別
-		GameIdType GetGameIdType(string id)
+		GameIdType GetGameIdType(string id, out string player_name)
 		{
+			player_name = "";
+
 			// cached
 			if (id_info.ContainsKey(id))
 			{
@@ -571,19 +580,16 @@ namespace ST_InstructorUI
 			{
 				var conn = new MySqlConnection(GetConnString());
 				conn.Open();
-
-				string sql = "SELECT player_id FROM records WHERE record_id='"+id+"' OR record_id='G"+id+"'";
-
-				var cmd = conn.CreateCommand();
-				cmd.CommandText = sql;
-				MySqlDataReader reader = cmd.ExecuteReader();
-				while (reader.Read())
+				string player_id = "";
 				{
-					if (reader.FieldCount==0)
+					string sql = "SELECT player_id FROM records WHERE record_id='"+id+"' OR record_id='G"+id+"' ORDER BY ID DESC";
+					var cmd = conn.CreateCommand();
+					cmd.CommandText = sql;
+					MySqlDataReader reader = cmd.ExecuteReader();
+					while (reader.Read())
 					{
-					}
-					else
-					{
+						if (reader.FieldCount==0)
+							continue;
 						var x = reader[0];
 						if (x.GetType() == typeof(System.DBNull))
 						{
@@ -591,12 +597,35 @@ namespace ST_InstructorUI
 						}
 						else
 						{
+							player_id = x.ToString();
 							gid = GameIdType.Partner;
 						}
+						break;
 					}
+					reader.Close();
+					cmd.Dispose();
 				}
-				reader.Close();
-				cmd.Dispose();
+
+				if (player_id.Length>0)
+				{
+					string sql = "SELECT names.username FROM users LEFT JOIN names ON names.user_id = users.id WHERE users.player_id='"+player_id.Substring(1)+"'";
+					var cmd = conn.CreateCommand();
+					cmd.CommandText = sql;
+					MySqlDataReader reader = cmd.ExecuteReader();
+					while (reader.Read())
+					{
+						if (reader.FieldCount==0)
+							continue;
+						var x = reader[0];
+						if (x.GetType()!=typeof(System.DBNull))
+						{
+							player_name = x.ToString();
+						}
+						break;
+					}
+					reader.Close();
+					cmd.Dispose();
+				}
 				conn.Close();
 			}
 			catch (Exception)
@@ -715,7 +744,8 @@ namespace ST_InstructorUI
 			}
 			else if (text[0]=='G')
 			{
-				switch (GetGameIdType(text.Substring(1)))
+				string gameplayer_name;
+				switch (GetGameIdType(text.Substring(1), out gameplayer_name))
 				{
 				case GameIdType.Invalid:
 					labelQrStatus.Text = "ただしくないゲームQRコードです";
@@ -725,6 +755,8 @@ namespace ST_InstructorUI
 					break;
 				case GameIdType.Partner:
 					textBox_partnerQR.Text = text;
+					if (gameplayer_name.Length>0)
+						labelPartnerName.Text = gameplayer_name+" さん";
 					break;
 				}
 			}
@@ -847,9 +879,11 @@ namespace ST_InstructorUI
 		}
 
 		private void buttonClearPlayer_Click(object sender, EventArgs e)
-			{ textBox_playerQR.Text = ""; }
+			{ textBox_playerQR.Text = "";
+			  labelPlayerName.Text = ""; }
 		private void buttonClearPartner_Click(object sender, EventArgs e)
-			{ textBox_partnerQR.Text = ""; }
+			{ textBox_partnerQR.Text = "";
+			  labelPartnerName.Text = ""; }
 		private void buttonClearGame_Click(object sender, EventArgs e)
 			{ textBox_gameQR.Text = ""; }
 	}
