@@ -722,6 +722,7 @@ namespace ST_InstructorUI
 			if (text.Length>=3 && text[0]=='M' && text[1]==':')
 			{
 				textBox_partnerQR.Text = text;
+				labelPartnerName.Text = "どうぶつ";
 			}
 			else if (text[0]=='P')
 			{

@@ -36,6 +36,7 @@
 			this.tabControl = new System.Windows.Forms.TabControl();
 			this.tabPage_Main = new System.Windows.Forms.TabPage();
 			this.splitContainer2 = new System.Windows.Forms.SplitContainer();
+			this.labelPartnerName = new System.Windows.Forms.Label();
 			this.buttonClearGame = new System.Windows.Forms.Button();
 			this.buttonClearPartner = new System.Windows.Forms.Button();
 			this.buttonClearPlayer = new System.Windows.Forms.Button();
@@ -88,7 +89,6 @@
 			this.splitContainer4 = new System.Windows.Forms.SplitContainer();
 			this.textBoxSendMsg = new System.Windows.Forms.TextBox();
 			this.buttonSendAll = new System.Windows.Forms.Button();
-			this.labelPartnerName = new System.Windows.Forms.Label();
 			this.statusStrip1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
 			this.splitContainer1.Panel1.SuspendLayout();
@@ -230,9 +230,19 @@
 			this.splitContainer2.Panel2.Controls.Add(this.buttonGoal);
 			this.splitContainer2.Panel2.Controls.Add(this.buttonInit);
 			this.splitContainer2.Size = new System.Drawing.Size(916, 595);
-			this.splitContainer2.SplitterDistance = 582;
+			this.splitContainer2.SplitterDistance = 576;
 			this.splitContainer2.SplitterWidth = 10;
 			this.splitContainer2.TabIndex = 0;
+			// 
+			// labelPartnerName
+			// 
+			this.labelPartnerName.AutoSize = true;
+			this.labelPartnerName.Font = new System.Drawing.Font("メイリオ", 10F);
+			this.labelPartnerName.Location = new System.Drawing.Point(402, 66);
+			this.labelPartnerName.Name = "labelPartnerName";
+			this.labelPartnerName.Size = new System.Drawing.Size(178, 21);
+			this.labelPartnerName.TabIndex = 22;
+			this.labelPartnerName.Text = "ここに名前が表示されます";
 			// 
 			// buttonClearGame
 			// 
@@ -766,10 +776,10 @@
 			// tabPage_Admin
 			// 
 			this.tabPage_Admin.Controls.Add(this.splitContainer3);
-			this.tabPage_Admin.Location = new System.Drawing.Point(4, 27);
+			this.tabPage_Admin.Location = new System.Drawing.Point(4, 22);
 			this.tabPage_Admin.Name = "tabPage_Admin";
 			this.tabPage_Admin.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage_Admin.Size = new System.Drawing.Size(920, 601);
+			this.tabPage_Admin.Size = new System.Drawing.Size(920, 606);
 			this.tabPage_Admin.TabIndex = 2;
 			this.tabPage_Admin.Text = "管理者画面";
 			this.tabPage_Admin.UseVisualStyleBackColor = true;
@@ -790,8 +800,8 @@
 			// splitContainer3.Panel2
 			// 
 			this.splitContainer3.Panel2.Controls.Add(this.splitContainer4);
-			this.splitContainer3.Size = new System.Drawing.Size(914, 595);
-			this.splitContainer3.SplitterDistance = 557;
+			this.splitContainer3.Size = new System.Drawing.Size(914, 600);
+			this.splitContainer3.SplitterDistance = 562;
 			this.splitContainer3.TabIndex = 16;
 			// 
 			// textBoxLog
@@ -805,7 +815,7 @@
 			this.textBoxLog.Multiline = true;
 			this.textBoxLog.Name = "textBoxLog";
 			this.textBoxLog.ReadOnly = true;
-			this.textBoxLog.Size = new System.Drawing.Size(914, 557);
+			this.textBoxLog.Size = new System.Drawing.Size(914, 562);
 			this.textBoxLog.TabIndex = 15;
 			// 
 			// splitContainer4
@@ -848,16 +858,6 @@
 			this.buttonSendAll.Text = "全クライアントにメッセージ";
 			this.buttonSendAll.UseVisualStyleBackColor = true;
 			this.buttonSendAll.Click += new System.EventHandler(this.buttonSendAll_Click);
-			// 
-			// labelPartnerName
-			// 
-			this.labelPartnerName.AutoSize = true;
-			this.labelPartnerName.Font = new System.Drawing.Font("メイリオ", 10F);
-			this.labelPartnerName.Location = new System.Drawing.Point(402, 66);
-			this.labelPartnerName.Name = "labelPartnerName";
-			this.labelPartnerName.Size = new System.Drawing.Size(178, 21);
-			this.labelPartnerName.TabIndex = 22;
-			this.labelPartnerName.Text = "ここに名前が表示されます";
 			// 
 			// Form1
 			// 
