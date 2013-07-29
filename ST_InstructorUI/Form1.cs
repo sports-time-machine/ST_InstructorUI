@@ -562,7 +562,12 @@ namespace ST_InstructorUI
 			NewGame,
 			Partner,
 		}
-		Dictionary<string,GameIdType> id_info = new Dictionary<string,GameIdType>();
+		struct IdInfo
+		{
+			public GameIdType idtype;
+			public string player_name;
+		}
+		Dictionary<string,IdInfo> id_info = new Dictionary<string,IdInfo>();
 
 		// ゲームIDをDBから読み取り、新規IDかパートナーIDか、不正であるかを判別
 		GameIdType GetGameIdType(string id, out string player_name)
@@ -572,7 +577,8 @@ namespace ST_InstructorUI
 			// cached
 			if (id_info.ContainsKey(id))
 			{
-				return id_info[id];
+				player_name = id_info[id].player_name;
+				return id_info[id].idtype;
 			}
 
 			GameIdType gid = GameIdType.Invalid;
@@ -608,6 +614,8 @@ namespace ST_InstructorUI
 
 				if (player_id.Length>0)
 				{
+					// プレイヤーIDがあるのなら名前をひく
+					// 名前はPなしIDからもらう
 					string sql = "SELECT names.username FROM users LEFT JOIN names ON names.user_id = users.id WHERE users.player_id='"+player_id.Substring(1)+"'";
 					var cmd = conn.CreateCommand();
 					cmd.CommandText = sql;
@@ -634,7 +642,10 @@ namespace ST_InstructorUI
 			}
 
 			// cache
-			id_info[id] = gid;
+			IdInfo ii;
+			ii.idtype = gid;
+			ii.player_name = player_name;
+			id_info[id] = ii;
 			return gid;
 		}
 
