@@ -230,7 +230,7 @@
 	        this.splitContainer2.Panel2.Controls.Add(this.buttonGoal);
 	        this.splitContainer2.Panel2.Controls.Add(this.buttonInit);
 	        this.splitContainer2.Size = new System.Drawing.Size(916, 595);
-	        this.splitContainer2.SplitterDistance = 564;
+	        this.splitContainer2.SplitterDistance = 576;
 	        this.splitContainer2.SplitterWidth = 10;
 	        this.splitContainer2.TabIndex = 0;
 	        // 
