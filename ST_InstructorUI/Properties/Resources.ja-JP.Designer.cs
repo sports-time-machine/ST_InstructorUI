@@ -213,6 +213,26 @@ namespace ST_InstructorUI.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 中断の確認.
+        /// </summary>
+        internal static string Dialog_ConfirmAbort {
+            get {
+                return ResourceManager.GetString("Dialog.ConfirmAbort", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to リプレイやその後の無音時間に中断を押すとデータが保存されません。本当に中断しますか？
+        ///
+        ///（OK = 中断する、キャンセル = 続行する）.
+        /// </summary>
+        internal static string Dialog_ConfirmAbortMessage {
+            get {
+                return ResourceManager.GetString("Dialog.ConfirmAbortMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 確認です.
         /// </summary>
         internal static string Dialog_Confirmation {

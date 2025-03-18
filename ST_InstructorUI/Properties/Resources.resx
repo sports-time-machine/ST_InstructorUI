@@ -334,4 +334,12 @@ go to the main screen with this button.</value>
     <data name="labelPartnerName.Text" xml:space="preserve">
     <value>Name will be displayed here</value>
   </data>
+    <data name="Dialog.ConfirmAbort" xml:space="preserve">
+      <value>Confirm Abort</value>
+    </data>
+    <data name="Dialog.ConfirmAbortMessage" xml:space="preserve">
+      <value>If you abort during replay or silent period, data will not be saved. Do you really want to abort?
+
+(OK = Abort, Cancel = Continue)</value>
+    </data>
 </root>

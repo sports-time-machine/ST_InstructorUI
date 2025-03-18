@@ -213,6 +213,26 @@ namespace ST_InstructorUI.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Confirm Abort.
+        /// </summary>
+        internal static string Dialog_ConfirmAbort {
+            get {
+                return ResourceManager.GetString("Dialog.ConfirmAbort", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to If you abort during replay or silent period, data will not be saved. Do you really want to abort?
+        ///
+        ///(OK = Abort, Cancel = Continue).
+        /// </summary>
+        internal static string Dialog_ConfirmAbortMessage {
+            get {
+                return ResourceManager.GetString("Dialog.ConfirmAbortMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Confirmation.
         /// </summary>
         internal static string Dialog_Confirmation {

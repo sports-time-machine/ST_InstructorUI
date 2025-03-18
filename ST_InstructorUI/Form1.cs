@@ -375,12 +375,12 @@ namespace ST_InstructorUI
                 IPEndPoint remoteEP = null;
                 var rcvBytes = _pingRecv.Receive(ref remoteEP);
                 if (rcvBytes.Length <= 0) return;
-                
+
                 Debug.Print("[ping recv] " + rcvBytes.Length + " bytes received");
                 var rcvMsg = enc.GetString(rcvBytes);
                 var cmds = rcvMsg.Split(' ', '\t');
                 if (cmds.Length < 1) return;
-                
+
                 cmds[0] = cmds[0].ToUpper();
                 _self.Invoke(new DoCommandDelegate(DoCommand), "ping", cmds[0], cmds);
                 //recv_log(rcvMsg);
@@ -1074,7 +1074,13 @@ namespace ST_InstructorUI
 
         private void buttonInit_Click(object sender, EventArgs e)
         {
-            send_data("INIT");
+            var result = MessageBox.Show(Resources.ResourceManager.GetString("Dialog.ConfirmAbortMessage"),
+                Resources.ResourceManager.GetString("Dialog.ConfirmAbort"), MessageBoxButtons.OKCancel,
+                MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2);
+            if (result == DialogResult.OK)
+            {
+                send_data("INIT");
+            }
         }
 
         private void buttonMute_Click(object sender, EventArgs e)

@@ -336,4 +336,12 @@
 床情報を初期化している間は、画面が黒くなります。
       </value>
     </data>
+    <data name="Dialog.ConfirmAbort" xml:space="preserve">
+      <value>中断の確認</value>
+    </data>
+    <data name="Dialog.ConfirmAbortMessage" xml:space="preserve">
+      <value>リプレイやその後の無音時間に中断を押すとデータが保存されません。本当に中断しますか？
+
+（OK = 中断する、キャンセル = 続行する）</value>
+    </data>
 </root>
