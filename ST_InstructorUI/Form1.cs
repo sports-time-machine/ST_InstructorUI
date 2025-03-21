@@ -68,7 +68,7 @@ namespace ST_InstructorUI
             ApplyResources();
 
             // 最初は初期化タブのみ
-            // tabControl.TabPages.Remove(tabPage_Main);
+            tabControl.TabPages.Remove(tabPage_Main);
             UpdateFormButtons("inited");
 
             _self = this;
@@ -1182,11 +1182,6 @@ namespace ST_InstructorUI
         private void buttonClearGame_Click(object sender, EventArgs e)
         {
             textBox_gameQR.Text = "";
-        }
-
-        private void tabPage_System_Click(object sender, EventArgs e)
-        {
-            throw new System.NotImplementedException();
         }
     }
 }
