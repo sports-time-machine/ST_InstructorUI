@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Diagnostics;
 using System.Drawing;
-using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -56,23 +54,13 @@ namespace ST_InstructorUI
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            // app.configから言語設定を読み込み
-            var cultureName = ConfigurationManager.AppSettings["Culture"];
-            if (!string.IsNullOrEmpty(cultureName))
-            {
-                try
-                {
-                    var culture = new CultureInfo(cultureName);
-                    Thread.CurrentThread.CurrentUICulture = culture;
-                    Resources.Culture = culture;
-                }
-                catch (CultureNotFoundException)
-                {
-                    // 言語が見つからない場合は日本語をデフォルトとする
-                    Thread.CurrentThread.CurrentUICulture = new CultureInfo("ja-JP");
-                    Resources.Culture = new CultureInfo("ja-JP");
-                }
-            }
+            // Initialize language dropdown
+            InitializeLanguageComponent();
+
+            // Set current culture
+            var currentCulture = LanguageUtils.GetCurrentCulture();
+            Thread.CurrentThread.CurrentUICulture = currentCulture;
+            Resources.Culture = currentCulture;
 
             // リソースを適用
             ApplyResources();
@@ -560,6 +548,104 @@ namespace ST_InstructorUI
         }
 
         /********************************************************************************************
+         * 言語関連
+         ********************************************************************************************/
+        private void InitializeLanguageComponent()
+        {
+            // Fill the dropdown with available languages
+            languageComboBox.Items.Clear();
+            languageComboBox.Items.AddRange(LanguageUtils.GetAvailableLanguageDisplayNames().ToArray());
+
+            // Set the current language in the dropdown
+            var currentCulture = LanguageUtils.GetCurrentCulture();
+            languageComboBox.SelectedItem = LanguageUtils.GetDisplayNameByCulture(currentCulture);
+        }
+
+        private void ApplyResources()
+        {
+            // フォームのタイトル
+            Text = Resources.ResourceManager.GetString("Form1.Text");
+
+            // タブページ
+            tabPage_Main.Text = Resources.ResourceManager.GetString("tabPage_Main.Text");
+            tabPage_System.Text = Resources.ResourceManager.GetString("tabPage_System.Text");
+            tabPage_Admin.Text = Resources.ResourceManager.GetString("tabPage_Admin.Text");
+
+            // メイン画面のボタン
+            buttonLoad.Text = Resources.ResourceManager.GetString("buttonLoad.Text");
+            buttonStart.Text = Resources.ResourceManager.GetString("buttonStart.Text");
+            buttonStop.Text = Resources.ResourceManager.GetString("buttonStop.Text");
+            buttonGoal.Text = Resources.ResourceManager.GetString("buttonGoal.Text");
+            buttonInit.Text = Resources.ResourceManager.GetString("buttonInit.Text");
+
+            // ラベル
+            label1.Text = Resources.ResourceManager.GetString("label1.Text");
+            label2.Text = Resources.ResourceManager.GetString("label2.Text");
+            label3.Text = Resources.ResourceManager.GetString("label3.Text");
+            label4.Text = Resources.ResourceManager.GetString("label4.Text");
+            label5.Text = Resources.ResourceManager.GetString("label5.Text");
+            label6.Text = Resources.ResourceManager.GetString("label6.Text");
+            label7.Text = Resources.ResourceManager.GetString("label7.Text");
+            label8.Text = Resources.ResourceManager.GetString("label8.Text");
+            label9.Text = Resources.ResourceManager.GetString("label9.Text");
+
+            // クリアボタン
+            buttonClearTags.Text = Resources.ResourceManager.GetString("buttonClearTags.Text");
+            buttonClearPlayer.Text = Resources.ResourceManager.GetString("buttonClearPlayer.Text");
+            buttonClearPartner.Text = Resources.ResourceManager.GetString("buttonClearPartner.Text");
+            buttonClearGame.Text = Resources.ResourceManager.GetString("buttonClearGame.Text");
+
+            // ランダムボタン
+            buttonRandomBackground.Text =
+                Resources.ResourceManager.GetString("buttonRandomBackground.Text");
+            buttonRandomColor.Text = Resources.ResourceManager.GetString("buttonRandomColor.Text");
+
+            // 初期化画面のボタン
+            button_Init.Text = Resources.ResourceManager.GetString("button_Init.Text");
+            buttonInitSystem.Text = Resources.ResourceManager.GetString("buttonInitSystem.Text");
+            buttonInitFloor.Text = Resources.ResourceManager.GetString("buttonInitFloor.Text");
+            buttonGotoMain.Text = Resources.ResourceManager.GetString("buttonGotoMain.Text");
+
+            // テキストボックス
+            textBox1.Text = Resources.ResourceManager.GetString("textBox1.Text");
+            textBox2.Text = Resources.ResourceManager.GetString("textBox2.Text");
+            textBox3.Text = Resources.ResourceManager.GetString("textBox3.Text");
+
+            // 管理者画面
+            buttonSendAll.Text = Resources.ResourceManager.GetString("buttonSendAll.Text");
+
+            // 状態表示ラベル
+            toolStripStatusLabel1.Text =
+                Resources.ResourceManager.GetString("toolStripStatusLabel1.Text");
+
+            // プレイヤー情報とパートナー情報のラベル
+            labelPlayerName.Text = Resources.ResourceManager.GetString("labelPlayerName.Text");
+            labelPartnerName.Text = Resources.ResourceManager.GetString("labelPartnerName.Text");
+
+            // QR状態ラベル
+            if (labelQrStatus.Text == "" || labelQrStatus.Text ==
+                Resources.ResourceManager.GetString("StatusMessage.OK"))
+            {
+                labelQrStatus.Text = Resources.ResourceManager.GetString("StatusMessage.OK");
+            }
+
+            // ダイアログテキストは直接適用できないが、必要時に取得
+            // MessageBoxなどで使用する際は Properties.Resources.ResourceManager.GetString("Dialog.XXX") を使用
+
+            // 状態メッセージの更新
+            UpdateFormButtons(toolStripStatusLabel1.Text);
+        }
+
+        private void languageComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (languageComboBox.SelectedItem == null) return;
+
+            string selectedLanguage = languageComboBox.SelectedItem.ToString();
+            LanguageUtils.ChangeLanguageByDisplayName(selectedLanguage);
+            ApplyResources();
+        }
+
+        /********************************************************************************************
          * コントロールイベントハンドラ
          ********************************************************************************************/
         private int GetPresetTagCount()
@@ -915,107 +1001,6 @@ namespace ST_InstructorUI
                 : Color.Pink;
 
             return true;
-        }
-
-        public void ChangeLanguage(CultureInfo culture)
-        {
-            Thread.CurrentThread.CurrentUICulture = culture;
-            Resources.Culture = culture;
-
-            // app.configに言語設定を保存
-            var config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
-            config.AppSettings.Settings["Culture"].Value = culture.Name;
-            config.Save(ConfigurationSaveMode.Modified);
-            ConfigurationManager.RefreshSection("appSettings");
-
-            ApplyResources();
-        }
-
-        private void ApplyResources()
-        {
-            // フォームのタイトル
-            Text = Resources.ResourceManager.GetString("Form1.Text");
-
-            // タブページ
-            tabPage_Main.Text = Resources.ResourceManager.GetString("tabPage_Main.Text");
-            tabPage_System.Text = Resources.ResourceManager.GetString("tabPage_System.Text");
-            tabPage_Admin.Text = Resources.ResourceManager.GetString("tabPage_Admin.Text");
-
-            // メイン画面のボタン
-            buttonLoad.Text = Resources.ResourceManager.GetString("buttonLoad.Text");
-            buttonStart.Text = Resources.ResourceManager.GetString("buttonStart.Text");
-            buttonStop.Text = Resources.ResourceManager.GetString("buttonStop.Text");
-            buttonGoal.Text = Resources.ResourceManager.GetString("buttonGoal.Text");
-            buttonInit.Text = Resources.ResourceManager.GetString("buttonInit.Text");
-
-            // ラベル
-            label1.Text = Resources.ResourceManager.GetString("label1.Text");
-            label2.Text = Resources.ResourceManager.GetString("label2.Text");
-            label3.Text = Resources.ResourceManager.GetString("label3.Text");
-            label4.Text = Resources.ResourceManager.GetString("label4.Text");
-            label5.Text = Resources.ResourceManager.GetString("label5.Text");
-            label6.Text = Resources.ResourceManager.GetString("label6.Text");
-            label7.Text = Resources.ResourceManager.GetString("label7.Text");
-            label8.Text = Resources.ResourceManager.GetString("label8.Text");
-            label9.Text = Resources.ResourceManager.GetString("label9.Text");
-
-            // クリアボタン
-            buttonClearTags.Text = Resources.ResourceManager.GetString("buttonClearTags.Text");
-            buttonClearPlayer.Text = Resources.ResourceManager.GetString("buttonClearPlayer.Text");
-            buttonClearPartner.Text = Resources.ResourceManager.GetString("buttonClearPartner.Text");
-            buttonClearGame.Text = Resources.ResourceManager.GetString("buttonClearGame.Text");
-
-            // ランダムボタン
-            buttonRandomBackground.Text =
-                Resources.ResourceManager.GetString("buttonRandomBackground.Text");
-            buttonRandomColor.Text = Resources.ResourceManager.GetString("buttonRandomColor.Text");
-
-            // 初期化画面のボタン
-            button_Init.Text = Resources.ResourceManager.GetString("button_Init.Text");
-            buttonInitSystem.Text = Resources.ResourceManager.GetString("buttonInitSystem.Text");
-            buttonInitFloor.Text = Resources.ResourceManager.GetString("buttonInitFloor.Text");
-            buttonGotoMain.Text = Resources.ResourceManager.GetString("buttonGotoMain.Text");
-
-            // テキストボックス
-            textBox1.Text = Resources.ResourceManager.GetString("textBox1.Text");
-            textBox2.Text = Resources.ResourceManager.GetString("textBox2.Text");
-            textBox3.Text = Resources.ResourceManager.GetString("textBox3.Text");
-
-            // 管理者画面
-            buttonSendAll.Text = Resources.ResourceManager.GetString("buttonSendAll.Text");
-
-            // 状態表示ラベル
-            toolStripStatusLabel1.Text =
-                Resources.ResourceManager.GetString("toolStripStatusLabel1.Text");
-
-            // プレイヤー情報とパートナー情報のラベル
-            labelPlayerName.Text = Resources.ResourceManager.GetString("labelPlayerName.Text");
-            labelPartnerName.Text = Resources.ResourceManager.GetString("labelPartnerName.Text");
-
-            // QR状態ラベル
-            if (labelQrStatus.Text == "" || labelQrStatus.Text ==
-                Resources.ResourceManager.GetString("StatusMessage.OK"))
-            {
-                labelQrStatus.Text = Resources.ResourceManager.GetString("StatusMessage.OK");
-            }
-
-            // 言語切り替えボタン
-            languageToggleButton.Text = Thread.CurrentThread.CurrentUICulture.Name == "ja-JP" ? "English" : "日本語";
-
-            // ダイアログテキストは直接適用できないが、必要時に取得
-            // MessageBoxなどで使用する際は Properties.Resources.ResourceManager.GetString("Dialog.XXX") を使用
-
-            // 状態メッセージの更新
-            UpdateFormButtons(toolStripStatusLabel1.Text);
-        }
-
-        private void languageToggleButton_Click(object sender, EventArgs e)
-        {
-            ChangeLanguage(Thread.CurrentThread.CurrentUICulture.Name == "ja-JP"
-                ? new CultureInfo("en")
-                : new CultureInfo("ja-JP"));
-
-            languageToggleButton.Text = Resources.languageToggleButton_Text;
         }
 
         private void readQRTimer_Tick(object sender, EventArgs e)

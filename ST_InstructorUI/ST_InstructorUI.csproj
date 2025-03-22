@@ -72,9 +72,8 @@
         <Reference Include="DotNetBarcode">
             <HintPath>..\..\ST_QrPrint\DLL\DotNetBarcode.dll</HintPath>
         </Reference>
-        <Reference Include="MySql.Data">
-            <HintPath>..\..\ST_QrPrint\DLL\MySql.Data.dll</HintPath>
-            <Private>True</Private>
+        <Reference Include="MySql.Data, Version=6.9.12.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+          <HintPath>..\packages\MySql.Data.6.9.12\lib\net45\MySql.Data.dll</HintPath>
         </Reference>
         <Reference Include="PresentationCore"/>
         <Reference Include="PresentationFramework"/>
@@ -99,6 +98,7 @@
         <Compile Include="Form1.Designer.cs">
             <DependentUpon>Form1.cs</DependentUpon>
         </Compile>
+        <Compile Include="LanguageUtils.cs" />
         <Compile Include="Program.cs"/>
         <Compile Include="Properties\AssemblyInfo.cs"/>
         <EmbeddedResource Include="Form1.resx">
@@ -107,6 +107,10 @@
         <EmbeddedResource Include="Properties\Resources.ja-JP.resx">
             <Generator>ResXFileCodeGenerator</Generator>
             <LastGenOutput>Resources.ja-JP.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Include="Properties\Resources.ko-KR.resx">
+          <Generator>ResXFileCodeGenerator</Generator>
+          <LastGenOutput>Resources.ko-KR.Designer.cs</LastGenOutput>
         </EmbeddedResource>
         <EmbeddedResource Include="Properties\Resources.resx">
             <Generator>ResXFileCodeGenerator</Generator>
@@ -118,6 +122,7 @@
             <DependentUpon>Resources.resx</DependentUpon>
         </Compile>
         <None Include="app.config"/>
+        <None Include="packages.config" />
         <None Include="Properties\Settings.settings">
             <Generator>SettingsSingleFileGenerator</Generator>
             <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -126,6 +131,11 @@
             <DesignTime>True</DesignTime>
             <AutoGen>True</AutoGen>
             <DependentUpon>Resources.ja-JP.resx</DependentUpon>
+        </Compile>
+        <Compile Include="Properties\Resources.ko-KR.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>Resources.ko-KR.resx</DependentUpon>
         </Compile>
         <Compile Include="Properties\Settings.Designer.cs">
             <AutoGen>True</AutoGen>

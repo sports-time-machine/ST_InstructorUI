@@ -1,4 +1,6 @@
-﻿namespace ST_InstructorUI
+﻿using System.Web;
+
+namespace ST_InstructorUI
 {
     partial class Form1
     {
@@ -72,6 +74,7 @@
 	        this.buttonInit = new System.Windows.Forms.Button();
 	        this.tabPage_System = new System.Windows.Forms.TabPage();
 	        this.panel1 = new System.Windows.Forms.Panel();
+	        this.languageComboBox = new System.Windows.Forms.ComboBox();
 	        this.label9 = new System.Windows.Forms.Label();
 	        this.panelThird = new System.Windows.Forms.Panel();
 	        this.buttonGotoMain = new System.Windows.Forms.Button();
@@ -83,7 +86,6 @@
 	        this.buttonInitSystem = new System.Windows.Forms.Button();
 	        this.textBox1 = new System.Windows.Forms.TextBox();
 	        this.button_Init = new System.Windows.Forms.Button();
-	        this.languageToggleButton = new System.Windows.Forms.Button();
 	        this.tabPage_Admin = new System.Windows.Forms.TabPage();
 	        this.splitContainer3 = new System.Windows.Forms.SplitContainer();
 	        this.textBoxLog = new System.Windows.Forms.TextBox();
@@ -626,7 +628,7 @@
 	        this.tabPage_System.Controls.Add(this.panelSecond);
 	        this.tabPage_System.Controls.Add(this.panelFirst);
 	        this.tabPage_System.Controls.Add(this.button_Init);
-	        this.tabPage_System.Controls.Add(this.languageToggleButton);
+	        this.tabPage_System.Controls.Add(this.languageComboBox);
 	        this.tabPage_System.Location = new System.Drawing.Point(4, 22);
 	        this.tabPage_System.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
 	        this.tabPage_System.Name = "tabPage_System";
@@ -643,6 +645,15 @@
 	        this.panel1.Name = "panel1";
 	        this.panel1.Size = new System.Drawing.Size(656, 78);
 	        this.panel1.TabIndex = 19;
+	        // 
+	        // languageComboBox
+	        // 
+	        this.languageComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+	        this.languageComboBox.Location = new System.Drawing.Point(800, 10);
+	        this.languageComboBox.Name = "languageComboBox";
+	        this.languageComboBox.Size = new System.Drawing.Size(100, 30);
+	        this.languageComboBox.TabIndex = 23;
+	        this.languageComboBox.SelectedIndexChanged += new System.EventHandler(this.languageComboBox_SelectedIndexChanged);
 	        // 
 	        // label9
 	        // 
@@ -771,16 +782,6 @@
 	        this.button_Init.TabIndex = 7;
 	        this.button_Init.Text = "INIT";
 	        this.button_Init.UseVisualStyleBackColor = false;
-	        // 
-	        // languageToggleButton
-	        // 
-	        this.languageToggleButton.Location = new System.Drawing.Point(800, 10);
-	        this.languageToggleButton.Name = "languageToggleButton";
-	        this.languageToggleButton.Size = new System.Drawing.Size(100, 30);
-	        this.languageToggleButton.TabIndex = 23;
-	        this.languageToggleButton.Text = "English";
-	        this.languageToggleButton.UseVisualStyleBackColor = true;
-	        this.languageToggleButton.Click += new System.EventHandler(this.languageToggleButton_Click);
 	        // 
 	        // tabPage_Admin
 	        // 
@@ -985,6 +986,6 @@
 		private System.Windows.Forms.Button buttonClearPartner;
 		private System.Windows.Forms.Button buttonClearPlayer;
 		private System.Windows.Forms.Label labelPartnerName;
-		private System.Windows.Forms.Button languageToggleButton;
+		private System.Windows.Forms.ComboBox languageComboBox;
     }
 }
